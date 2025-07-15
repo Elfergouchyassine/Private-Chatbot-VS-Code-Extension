@@ -1,0 +1,137 @@
+{
+  "name": "private-chatbot-extension",
+  "displayName": "Private ChatBot Extension",
+  "description": "A VS Code extension for secure chatbot communication with private LLM models",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Other"
+  ],
+  "keywords": [
+    "ai",
+    "chatbot",
+    "llm",
+    "private",
+    "secure",
+    "llama"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "privateChatbot.openChat",
+        "title": "Open Private ChatBot",
+        "category": "Private ChatBot",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "privateChatbot.configure",
+        "title": "Configure API Settings",
+        "category": "Private ChatBot",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "privateChatbot.testConnection",
+        "title": "Test LLM Connection",
+        "category": "Private ChatBot",
+        "icon": "$(pulse)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "privateChatbot.openChat"
+        },
+        {
+          "command": "privateChatbot.configure"
+        },
+        {
+          "command": "privateChatbot.testConnection"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "privateChatbot.openChat",
+          "when": "view == privateChatbot.chatView",
+          "group": "navigation"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "privateChatbot.chatView",
+          "name": "Private ChatBot",
+          "when": "true",
+          "icon": "$(comment-discussion)"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Private ChatBot",
+      "properties": {
+        "privateChatbot.apiUrl": {
+          "type": "string",
+          "default": "",
+          "description": "LLM API endpoint URL",
+          "scope": "application"
+        },
+        "privateChatbot.defaultModel": {
+          "type": "string",
+          "default": "meta-llama/Meta-Llama-3-8B",
+          "description": "Default LLM model to use",
+          "scope": "application"
+        },
+        "privateChatbot.maxTokens": {
+          "type": "number",
+          "default": 100,
+          "minimum": 1,
+          "maximum": 4000,
+          "description": "Maximum tokens per response",
+          "scope": "application"
+        },
+        "privateChatbot.temperature": {
+          "type": "number",
+          "default": 0.7,
+          "minimum": 0,
+          "maximum": 2,
+          "description": "Response creativity (0-2)",
+          "scope": "application"
+        },
+        "privateChatbot.backendPort": {
+          "type": "number",
+          "default": 3004,
+          "description": "Backend API server port",
+          "scope": "application"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.102.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
